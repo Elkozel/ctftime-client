@@ -1,9 +1,8 @@
-import axios, { AxiosInstance } from "axios";
-import { eventOptions, eventResponse, getEvents } from "./procedures/events";
-import { getResults, Results } from "./procedures/results";
-import { TeamsResponse, TeamResponse, getTeams } from "./procedures/teams";
-import { getTop, TopTeams } from "./procedures/top";
-import { getvotes } from "./procedures/votes";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { eventOptions, eventParams, eventResponse, eventsPath } from "./procedures/events";
+import { Results } from "./procedures/results";
+import { TeamsResponse, TeamResponse, teamsPath } from "./procedures/teams";
+import { topPath, TopTeams } from "./procedures/top";
 
 export class API {
     instance: AxiosInstance;
@@ -24,7 +23,24 @@ export class API {
      * @param options the options for the search
     */
     async getEvents(options: eventOptions): Promise<[eventResponse]>;
-    async getEvents(options: eventOptions | number): Promise<eventResponse | [eventResponse]> { return await getEvents(this.instance, options); }
+    async getEvents(options: eventOptions | number): Promise<eventResponse | [eventResponse]> {
+        let response: AxiosResponse;
+        if (typeof options === "number")// check if an eventID was suppilied
+            // issue request
+            response = await this.instance.get(`events/${options}/`)
+        else {
+            // Convert dates to epoch time (since the API said so)
+            let requestParams: eventParams = {};
+            if (options.start) requestParams.start = options.start.getTime();
+            if (options.finish) requestParams.finish = options.finish.getTime();
+            // Issue request
+            response = await this.instance.get(eventsPath, {
+                params: options
+            })
+        }
+
+        return response.data;
+    }
 
     /**
      * Retrieve the current top 10 teams.
@@ -35,7 +51,12 @@ export class API {
      * @param year the year for which the top teams are retrieved
      */
     async getTop(year: number): Promise<TopTeams>;
-    async getTop(year?: number) { return await getTop(this.instance, year) };
+    async getTop(year?: number) {
+        let fullURL = topPath + (year ?? "");
+        let response = await this.instance.get<TopTeams>(fullURL);
+
+        return response.data;
+    };
 
 
 
@@ -48,13 +69,24 @@ export class API {
      * @param teamID the ID of the team
      */
     async getTeams(teamID: number): Promise<TeamResponse>;
-    async getTeams(teamID?: number): Promise<TeamsResponse | TeamResponse> { return await getTeams(this.instance, teamID) };
+    async getTeams(teamID?: number): Promise<TeamsResponse | TeamResponse> {
+        let fullURL = teamsPath + (teamID ?? "");
+
+        let response = await this.instance.get(fullURL);
+
+        return response.data;
+    };
 
     /**
      * Retrieve the votes for a given year.
      * @param year the year to retrieve the votes for
      */
-    async getVotes(year: number): Promise<any[]> { return await getvotes(this.instance, year) };
+    async getVotes(year: number): Promise<any[]> {
+        let fullURL = `votes/${year}/`
+        let response = await this.instance.get(fullURL);
+
+        return response.data;
+    };
 
     /**
      * Retrieve the results for current events.
@@ -66,5 +98,11 @@ export class API {
      * @returns the results per event
      */
     async getResults(year: number): Promise<Results>;
-    async getResults(year?: number): Promise<Results> { return await getResults(this.instance, year) };
+    async getResults(year?: number): Promise<Results> {
+        let fullURL = `results/${year ?? ""}`;
+
+        let response = await this.instance.get<Results>(fullURL);
+
+        return response.data;
+    };
 }

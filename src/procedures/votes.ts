@@ -1,6 +1,6 @@
 import { AxiosInstance } from "axios";
 
-const URL = "votes/{year}/"
+export const votesPath = "votes/{year}/"
 
 /**
  * Retrieve the votes for a given year.

@@ -10,6 +10,10 @@
     "client",
     "ctftime"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Elkozel/ctftime-client"
+  },
   "author": "TSV",
   "license": "MIT",
   "devDependencies": {

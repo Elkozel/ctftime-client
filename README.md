@@ -29,21 +29,20 @@ The API client supports all the calls, which are shown in the [API documentation
 
 ### Top 10 teams
 Retrieve the current top 10 teams
-```ts
+```typescript
 async getTeams(): Promise<TeamsResponse>;
 ```
 Retrieve the top 10 teams for a given year
-```ts
+```typescript
 async getTop(year: number): Promise<topTeams>;
 ```
 
 ### Events information
 Retrieve data about a single event
-```ts
-async getEvents(eventid: number): Promise<eventResponse>;
-```
+> async getEvents(eventid: number): Promise<eventResponse>;
+
 Retrieve the events for a given time interval
-```ts
+```typescript
 interface eventOptions {
     limit?: number, // default 5
     start?: Date, // default now
@@ -55,27 +54,27 @@ async getEvents(options: eventOptions): Promise<eventResponse>;
 
 ### Information about teams
 Retrieve information about the current teams
-```ts
+```typescript
 async getTeams(): Promise<TeamsResponse>;
 ```
 Retrieve data for a given team
-```ts
+```typescript
 async getTeams(teamID: number): Promise<TeamResponse>;
 ```
 
 ### Event results
 Retrieve the results for current events
-```ts
+```typescript
 async getResults(): Promise<Results>;
 ```
 Retrieve the results for a given year
-```ts
+```typescript
 async getResults(year: number): Promise<Results>;
 ```
 
 ### Event votes by year
 Retrieve the votes for a given year
-```ts
+```typescript
 async getVotes(year: number): Promise<any[]>
 ```
 Unfortunately, no successful response was observed for a given year, which is why the resoinse object for this call is still not implemented.

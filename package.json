@@ -1,0 +1,24 @@
+{
+  "name": "ctftime-client",
+  "version": "0.1.0",
+  "description": "A small client for the CTFTime API",
+  "main": "/lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "client",
+    "ctftime"
+  ],
+  "author": "TSV",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^2.0.15",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  },
+  "dependencies": {
+    "@types/node": "^17.0.14",
+    "axios": "^0.25.0"
+  }
+}

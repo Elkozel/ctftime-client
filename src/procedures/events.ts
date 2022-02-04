@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosResponse } from "axios";
 
-const URL = "/events/";
+export const eventsPath = "/events/";
 
 /**
  * An interface for the options, with which the request is executed.
@@ -14,34 +14,10 @@ export interface eventOptions {
 /**
  * An interface for the parameters in the HTTP request.
  */
-interface eventParams {
+export interface eventParams {
     limit?: number,
     start?: number,
     finish?: number
-}
-
-/**
- * Retrieve the events for a given time interval
- * @param instance the Axios instance used to make the connection
- * @param options the options for the search
- */
-export async function getEvents(instance: AxiosInstance, options: eventOptions | number): Promise<eventResponse | [eventResponse]> {
-    let response: AxiosResponse;
-    if (typeof options === "number")// check if an eventID was suppilied
-        // issue request
-        response = await instance.get(`events/${options}/`)
-    else {
-        // Convert dates to epoch time (since the API said so)
-        let requestParams: eventParams = {};
-        if (options.start) requestParams.start = options.start.getTime();
-        if (options.finish) requestParams.finish = options.finish.getTime();
-        // Issue request
-        response = await instance.get(URL, {
-            params: options
-        })
-    }
-
-    return response.data;
 }
 
 export interface Organizer {

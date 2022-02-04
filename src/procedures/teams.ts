@@ -1,25 +1,4 @@
-import { AxiosInstance } from "axios";
-
-const URL: string = "teams/";
-
-// /**
-//  * Retrieve all current teams.
-//  * @param instance the Axios instance used to make the connection
-//  */
-// export async function getTeams(instance: AxiosInstance): Promise<TeamsResponse>;
-// /**
-//  * Retrieve data for a given team
-//  * @param instance the Axios instance used to make the connection
-//  * @param teamID the ID of the team
-//  */
-// export async function getTeams(instance: AxiosInstance, teamID: number): Promise<TeamResponse>;
-export async function getTeams(instance: AxiosInstance, teamID?: number): Promise<TeamsResponse | TeamResponse> {
-    let fullURL = URL + (teamID ?? "");
-
-    let response = await instance.get(fullURL);
-
-    return response.data;
-}
+export const teamsPath: string = "teams/";
 
 /**
  * The response when team is not given

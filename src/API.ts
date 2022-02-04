@@ -4,11 +4,19 @@ import { Results } from "./procedures/results";
 import { TeamsResponse, TeamResponse, teamsPath } from "./procedures/teams";
 import { topPath, TopTeams } from "./procedures/top";
 
+const APIVersion = "v1"; // The version of the CTFTime API
+const clientName = "CTFTime-Client"; // The name of this client
+const clientVersion = "0.1"; // The version of this client
+
 export class API {
     instance: AxiosInstance;
 
     constructor() {
         this.instance = axios.create({
+            headers: { // Since the axios User Agent is forbidden for some reason
+                "User-Agent": `${clientName}/${clientVersion} (+https://github.com/Elkozel/ctftime-client)`,
+                "Github": "https://github.com/Elkozel/ctftime-client"
+            },
             baseURL: "https://ctftime.org/api/v1/"
         });
     }
